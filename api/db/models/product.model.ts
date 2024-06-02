@@ -4,15 +4,24 @@ export interface IProduct extends Document {
   _id: string;
   name: string;
   description?: string;
+  imageUrl: string;
   price: number;
-  category: string;
+  category: { _id: string; name: string };
+  properties: { key: string; vals: string }[];
 }
 
 const ProductSchema = new Schema({
   name: {type: String, required: true},
   description: {type: String},
+  imageUrl: {type: String, required: true},
   price: {type: Number},
   category: {type: mongoose.Types.ObjectId, ref: "Category"},
+  properties: [
+    {
+      key: { type: String },
+      vals: { type: String }
+    }
+  ]
 })
 
 const Product = models.Product || model("Product", ProductSchema);

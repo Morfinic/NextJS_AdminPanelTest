@@ -20,7 +20,7 @@ export async function getProducts() {
   try {
     await connToDb();
 
-    const products = await Product.find().populate("category")
+    const products = await Product.find().populate("category", "_id name")
 
     return JSON.parse(JSON.stringify(products));
   } catch (err) {

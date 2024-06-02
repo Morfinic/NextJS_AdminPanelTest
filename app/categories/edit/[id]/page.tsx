@@ -12,7 +12,7 @@ export default async function EditCategory(){
     <>
       <h1>Edit Category</h1>
       {category && (
-        <CategoryForm category={category} />
+        <CategoryForm {...category} />
       )}
     </>
   )

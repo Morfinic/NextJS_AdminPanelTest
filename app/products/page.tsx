@@ -1,5 +1,6 @@
 import { getProducts } from "@/api/calls/Products";
 import Link from "next/link";
+import Image from "next/image"
 
 export default async function Products(){
   const products = await getProducts()
@@ -17,6 +18,7 @@ export default async function Products(){
             <td>Description</td>
             <td>Price</td>
             <td>Category</td>
+            <td>Image</td>
             <td></td>
           </tr>
         </thead>
@@ -27,7 +29,24 @@ export default async function Products(){
                 <td>{product.name}</td>
                 <td>{product.description}</td>
                 <td>{product.price}</td>
-                <td>{product.category.name}</td>
+                <td>
+                  {product.category ?
+                    <>
+                      {product.category.name}
+                      <p>Properties:</p>
+                      {product.properties.map(el => (
+                        <p>{el.key}: {el.vals}</p>
+                      ))}
+                    </> :
+                    "null" }
+                </td>
+                <td>
+                  <Image
+                    src={product.imageUrl}
+                    width={150}
+                    height={150}
+                    alt="product_img" />
+                </td>
                 <td>
                   <Link href={`/products/edit/${product._id}`}>Edit</Link>
                   <Link href={`/products/delete/${product._id}`}>Delete</Link>

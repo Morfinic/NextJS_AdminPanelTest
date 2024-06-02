@@ -2,15 +2,15 @@
 import {connToDb} from "@/api/db";
 import Category from "@/api/db/models/category.model";
 import {CreateCategoryParams} from "@/types";
-import Product from "@/api/db/models/product.model";
 
-export async function createCategory({name}: CreateCategoryParams) {
+export async function createCategory({name, properties}: CreateCategoryParams) {
   try {
     await connToDb();
 
     const newCategory = await Category.create({
-      name: name
-    })
+      name: name,
+      properties: properties
+    });
 
     return JSON.parse(JSON.stringify(newCategory));
   } catch (err) {
@@ -46,9 +46,23 @@ export async function updateCategory(id: string, category: CreateCategoryParams)
   try {
     await connToDb();
 
+    console.log(category)
     const updatedCategory = await Category.updateOne({_id: id}, category)
 
     return JSON.parse(JSON.stringify(updatedCategory));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function deleteCategory(id: string) {
+  try {
+    await connToDb();
+
+    const delCategory = await Category.deleteOne({_id: id})
+    console.log(delCategory)
+
+    return;
   } catch (err) {
     console.log(err);
   }

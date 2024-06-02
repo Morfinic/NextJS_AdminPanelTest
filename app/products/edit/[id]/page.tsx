@@ -12,7 +12,7 @@ export default async function EditProduct() {
     <>
       <h1>Edit product</h1>
       {product && (
-        <ProductForm product={product}/>
+        <ProductForm {...product}/>
       )}
     </>
   )

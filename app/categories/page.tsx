@@ -15,6 +15,7 @@ export default async function Categories() {
         <thead>
           <tr>
             <td>Product name</td>
+            <td>Properties</td>
             <td></td>
           </tr>
         </thead>
@@ -23,6 +24,21 @@ export default async function Categories() {
             (category: any) => (
               <tr key={category._id}>
                 <td>{category.name}</td>
+                <td>
+                  {category.properties.map(
+                    (obj: Object) => (
+                      <div key={obj._id}>
+                        <p>Name: {obj.key}</p>
+                        <p>Properties:
+                        {obj.vals.map(
+                          (el: String) => (
+                            <p key={el}>{el}</p>
+                        )
+                        )}</p>
+                      </div>
+                    )
+                  )}
+                </td>
                 <td>
                   <Link href={`/categories/edit/${category._id}`}>Edit</Link>
                   <Link href={`/categories/delete/${category._id}`}>Delete</Link>
