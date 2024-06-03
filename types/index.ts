@@ -6,6 +6,7 @@ export type ProductId = {
   imageUrl?: string,
   price?: number,
   category?: string,
+  properties: { key: string; vals: string[] }[];
 }
 
 export type CreateProductParams = {

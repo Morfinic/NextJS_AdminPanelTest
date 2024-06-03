@@ -34,8 +34,8 @@ export default async function Products(){
                     <>
                       {product.category.name}
                       <p>Properties:</p>
-                      {product.properties.map(el => (
-                        <p>{el.key}: {el.vals}</p>
+                      {product.properties.map((el: any) => (
+                        <p key={el._id}>{el.key}: {el.vals}</p>
                       ))}
                     </> :
                     "null" }

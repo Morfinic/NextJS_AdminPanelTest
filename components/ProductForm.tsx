@@ -18,7 +18,9 @@ export default function ProductForm(product: ProductId) {
 
   const [files, setFiles] = useState<File[]>([]);
   const [categories, setCategories] = useState([]);
-  const [properties, setProperties] = useState([])
+  const [properties, setProperties] = useState(product.properties || [])
+
+  console.log(properties)
 
   const { startUpload } = useUploadThing("imageUploader")
 
@@ -26,7 +28,7 @@ export default function ProductForm(product: ProductId) {
     const rawData: CreateProductParams = {
       name: name,
       description: description,
-      imageUrl: "",
+      imageUrl: image,
       price: +price,
       category: category,
       properties: properties
@@ -65,12 +67,16 @@ export default function ProductForm(product: ProductId) {
 
   function setProductProp(propKey, selVal){
     setProperties(prev => {
-      const propsToAdd = {key: propKey, vals: selVal};
+      const prevTab = [...prev]
 
-      const ret = [...prev, propsToAdd]
-      console.log(ret)
-
-      return ret;
+      if(prevTab.find(el => el.key === propKey)){
+        const idx = prevTab.findIndex(el => el.key === propKey)
+        prevTab[idx].vals = selVal;
+        return prevTab;
+      } else {
+        const propsToAdd = {key: propKey, vals: selVal};
+        return [...prev, propsToAdd];
+      }
     })
   }
 
@@ -99,9 +105,8 @@ export default function ProductForm(product: ProductId) {
             <div className="flex gap-1">
               <div>{p.key}</div>
               <select
-                value={properties[p._id]}
-                onChange={ev => setProductProp(p.key, ev.target.value)}
-              >
+                value={product._id ? properties[properties.findIndex(el => el.key === p.key)].vals : properties[p._id]}
+                onChange={ev => setProductProp(p.key, ev.target.value)} >
                 <option value="None">None</option>
                 {p.vals.map(v => (
                   <option value={v}>{v}</option>
